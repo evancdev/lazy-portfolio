@@ -9,10 +9,6 @@
     "dev": "tsc --watch -p tsconfig.json"
   },
   "dependencies": {
-    "googleapis": "^162.0.0",
     "zod": "^4.1.12"
-  },
-  "devDependencies": {
-    "typescript": "^5.9.3"
   }
 }
