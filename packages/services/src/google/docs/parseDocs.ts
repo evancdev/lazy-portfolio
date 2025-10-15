@@ -1,5 +1,4 @@
-import { GoogleDoc } from '../types';
-import { ParsedDoc } from '@lazy-portfolio/lib';
+import { GoogleDoc, ParsedDoc } from '../types';
 import { geminiClient } from '../client';
 
 export function extractTextFromDoc(docData: GoogleDoc): string {
