@@ -1,7 +1,7 @@
-import { googleDocsClient } from './client.js';
-import { docs_v1 } from 'googleapis';
+import { googleDocsClient } from '../client';
+import { GoogleDoc } from '../types';
 
-export async function fetchDoc(docId: string): Promise<docs_v1.Schema$Document> {
+export async function fetchDoc(docId: string): Promise<GoogleDoc> {
   try {
     const res = await googleDocsClient.documents.get({ documentId: docId });
     return res.data;
