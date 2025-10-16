@@ -33,14 +33,14 @@ Return a JSON object with this exact structure:
 {
   "hero": { "name": string, "title": string },
   "experiences": [{ "title": string, "company": string, "date": string, "bulletPoints": string[] }],
-  "projects": [{ "title": string, "bulletPoints": string[], "techStack": string[], "link": string }],
+  "projects": [{ "title": string, "bulletPoints": string[], "techStack": string[] }],
   "contacts": [{ "text": string, "contactRef": string }]
 }
 
 Rules:
 - Extract the person's name and current experience title for hero
 - List all work experiences with their details
-- List all projects with tech stack and links
+- List all projects with tech stack
 - Extract contact information (email, phone, URLs)
 - IMPORTANT: For contacts do not include href inside text field
 - Phone numbers should match format: +1 (XXX) XXX-XXXX`;

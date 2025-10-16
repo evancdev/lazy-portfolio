@@ -27,8 +27,7 @@ export const mockPortfolioData = {
         "TensorFlow",
         "OpenCV",
         "NumPy"
-      ],
-      "link": null
+      ]
     },
     {
       "title": "Tower of Bingalee",
@@ -38,8 +37,7 @@ export const mockPortfolioData = {
       ],
       "techStack": [
         "OCaml"
-      ],
-      "link": null
+      ]
     }
   ],
   "contacts": [

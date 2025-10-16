@@ -17,7 +17,6 @@ export const projectsSchema = z.object({
   title: z.string(),
   bulletPoints: z.array(z.string()),
   techStack: z.array(z.string()),
-  link: z.url(),
 });
 
 const PHONE_REGEX = /^\(\d{3}\)\s\d{3}-\d{4}$/;
