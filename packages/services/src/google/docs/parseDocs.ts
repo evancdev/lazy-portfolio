@@ -42,7 +42,7 @@ Rules:
 - List all work experiences with their details
 - List all projects with tech stack and links
 - Extract contact information (email, phone, URLs)
-- For contacts do not include href inside text field
+- IMPORTANT: For contacts do not include href inside text field
 - Phone numbers should match format: +1 (XXX) XXX-XXXX`;
 
   const response = await geminiClient.chat.completions.create({
