@@ -27,5 +27,8 @@
     "tsx": "^4.20.6",
     "turbo": "^2.1.3",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3"
   }
 }

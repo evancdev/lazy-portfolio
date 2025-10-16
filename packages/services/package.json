@@ -8,7 +8,6 @@
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "dotenv": "^17.2.3",
     "googleapis": "^162.0.0",
     "openai": "^6.3.0",
     "zod": "^4.1.12"
