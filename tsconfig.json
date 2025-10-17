@@ -3,7 +3,8 @@
   "files": [],
   "references": [
     { "path": "./packages/services" },
-    { "path": "./app/site" }
-    // { "path": "./app/server" }
+    { "path": "./packages/types" },
+    { "path": "./app/site" },
+    { "path": "./app/server" }
   ]
 }
