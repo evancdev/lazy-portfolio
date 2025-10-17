@@ -1,14 +1,13 @@
 {
-  "name": "@lazy-portfolio/services",
+  "name": "@lazy-portfolio/types",
   "version": "1.0.0",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsc --watch -p tsconfig.json",
+    "dev": "tsc --watch -p tsconfig.build.json",
     "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
-    "googleapis": "^162.0.0",
-    "openai": "^6.3.0"
+    "zod": "^4.1.12"
   }
 }
