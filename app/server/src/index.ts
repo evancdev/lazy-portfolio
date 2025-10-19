@@ -1,8 +1,9 @@
 import { config } from 'dotenv';
 import { resolve } from 'path';
-import express from 'express';
+import express, { Response } from 'express';
 import cors from 'cors';
 import { mockPortfolioData } from './mock-data.js';
+import { ParsedDoc } from '@lazy-portfolio/types';
 
 // load .env only in development
 // keep env variables just in case if mock data needs update
@@ -25,7 +26,7 @@ app.use(cors({
 app.use(express.json());
 
 // fetch portfolio endpoint
-app.get('/api/portfolio', async (req, res) => {
+app.get('/api/portfolio', async (req, res: Response<ParsedDoc | null>) => {
   try {
     // use mock data for development (delete later, too broke for api calls)
     return res.status(200).json(mockPortfolioData);
@@ -37,7 +38,7 @@ app.get('/api/portfolio', async (req, res) => {
     return res.status(200).json(parsedDocs);
   } catch (error) {
     console.error('Error fetching portfolio data');
-    return res.status(500).json({ error: 'Failed to fetch portfolio data' });
+    return res.status(500).json(null);
   }
 });
 

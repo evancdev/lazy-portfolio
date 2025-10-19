@@ -1,4 +1,6 @@
-export const mockPortfolioData = {
+import { ParsedDoc } from '@lazy-portfolio/types';
+
+export const mockPortfolioData: ParsedDoc = {
   "hero": {
     "name": "Evan Chen",
     "title": "Software Engineer"
