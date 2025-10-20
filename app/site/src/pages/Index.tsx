@@ -1,0 +1,34 @@
+import { useEffect, useState } from "react";
+import type { ParsedDoc } from "@lazy-portfolio/types";
+import Nagivation from "@/components/NavBar";
+
+const Index = () => {
+  const [resume, setResume] = useState<ParsedDoc | null>(null);
+  
+  // fetch parsed resume from backend
+  useEffect(() => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    console.log(API_URL)
+    fetch(`${API_URL}/api/portfolio`)
+      .then((res) => res.json() as Promise<ParsedDoc>)
+      .then((resume) => {
+        console.log('Successfully fetch resume:', resume);
+        setResume(resume);
+      })
+      .catch((err) => {
+        console.error('API Error:', err);
+        setResume(null)
+      });
+  }, []);
+
+  if (!resume) return <div> update to 500 page </div>;
+
+  return (
+    <div className="relative">
+      <Nagivation {...resume.contacts}/>
+      <pre>{JSON.stringify(resume, null, 2)}</pre>
+    </div>
+  );
+};
+
+export default Index;
