@@ -5,6 +5,7 @@ const Experiences = ({ experiences }: { experiences: Experience[] }) => {
   return (
     <section id="experience" className="py-20 pt-28">
       <div className="max-w-6xl mx-auto px-4 w-full">
+        <hr className="border-t border-border mb-20" />
         <h2 className="text-4xl md:text-5xl font-bold mb-12 tracking-tight">
           <span className="text-primary font-mono">&gt;</span> Experience
         </h2>
