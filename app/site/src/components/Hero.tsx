@@ -4,7 +4,7 @@ import { TbBrandVercel } from "react-icons/tb";
 
 const Hero = ({ name, title }: HeroType) => {
   return (
-    <section id="home" className="h-screen flex items-center animate-fade-in pt-20">
+    <section id="about" className="h-screen flex items-center animate-fade-in pt-20">
       <div className="max-w-6xl mx-auto px-4 w-full">
         <div className="max-w-md">
           <div className="mb-4 text-primary font-mono text-sm">
