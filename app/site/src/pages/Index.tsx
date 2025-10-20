@@ -4,7 +4,7 @@ import Nagivation from "@/components/NavBar";
 import Hero from "@/components/Hero";
 import Experiences from "@/components/Experiences";
 import Projects from "@/components/Project";
-import ServerError from "@/pages/ServerError";
+import Loading from "@/pages/Loading";
 
 const Index = () => {
   const [resume, setResume] = useState<ParsedDoc | null>(null);
@@ -29,7 +29,7 @@ const Index = () => {
   }, []);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!resume) {
