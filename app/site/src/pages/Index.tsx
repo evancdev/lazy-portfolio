@@ -28,7 +28,7 @@ const Index = () => {
 
   return (
     <div className="relative overflow-x-hidden">
-      <Nagivation {...resume.contacts}/>
+      <Nagivation contacts={resume.contacts}/>
       <Hero {...resume.hero}/>
       <Experiences experiences={resume.experiences}/>
       <Projects projects={resume.projects}/>
