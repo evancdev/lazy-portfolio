@@ -2,9 +2,9 @@
   "extends": "./tsconfig.base.json",
   "files": [],
   "references": [
-    { "path": "./packages/services" },
     { "path": "./packages/types" },
-    { "path": "./app/site" },
-    { "path": "./app/server" }
+    { "path": "./packages/services" },
+    { "path": "./app/server" },
+    { "path": "./app/site" }
   ]
 }

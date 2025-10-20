@@ -1,13 +1,16 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist",
     "rootDir": "src",
-    "composite": true,
-    "noEmit": true
+    "outDir": "dist",
+    "paths": {
+      "@lazy-portfolio/types": ["../../packages/types/src"],
+      "@lazy-portfolio/services": ["../../packages/services/src"]
+    }
   },
   "include": ["src"],
   "references": [
-    { "path": "../../packages/services/tsconfig.build.json" }
+    { "path": "../../packages/types" },
+    { "path": "../../packages/services" }
   ]
 }
