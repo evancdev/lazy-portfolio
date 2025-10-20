@@ -21,6 +21,14 @@ const Navigation = ( contacts: Contact[]) => {
     { name: "Contact", href: "#contact" },
   ];
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
@@ -42,6 +50,7 @@ const Navigation = ( contacts: Contact[]) => {
             <a
               key={item.name}
               href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
               className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
             >
               {item.name}
@@ -81,7 +90,10 @@ const Navigation = ( contacts: Contact[]) => {
               <a
                 key={item.name}
                 href={item.href}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  handleNavClick(e, item.href);
+                  setIsMenuOpen(false);
+                }}
                 className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
               >
                 {item.name}

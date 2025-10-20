@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { ParsedDoc } from "@lazy-portfolio/types";
 import Nagivation from "@/components/NavBar";
+import Hero from "@/components/Hero";
 
 const Index = () => {
   const [resume, setResume] = useState<ParsedDoc | null>(null);
@@ -24,8 +25,9 @@ const Index = () => {
   if (!resume) return <div> update to 500 page </div>;
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-hidden">
       <Nagivation {...resume.contacts}/>
+      <Hero {...resume.hero}/>
       <pre>{JSON.stringify(resume, null, 2)}</pre>
     </div>
   );
