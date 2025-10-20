@@ -4,10 +4,12 @@ import Nagivation from "@/components/NavBar";
 import Hero from "@/components/Hero";
 import Experiences from "@/components/Experiences";
 import Projects from "@/components/Project";
+import ServerError from "@/pages/ServerError";
 
 const Index = () => {
   const [resume, setResume] = useState<ParsedDoc | null>(null);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   // fetch parsed resume from backend
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL;
@@ -17,14 +19,22 @@ const Index = () => {
       .then((resume) => {
         console.log('Successfully fetch resume:', resume);
         setResume(resume);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.error('API Error:', err);
-        setResume(null)
+        setIsLoading(false);
+        throw new Error('Failed to load resume data');
       });
   }, []);
 
-  if (!resume) return <div> update to 500 page </div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!resume) {
+    throw new Error('Failed to load resume data');
+  }
 
   return (
     <div className="relative overflow-x-hidden">
@@ -32,7 +42,6 @@ const Index = () => {
       <Hero {...resume.hero}/>
       <Experiences experiences={resume.experiences}/>
       <Projects projects={resume.projects}/>
-      <pre>{JSON.stringify(resume, null, 2)}</pre>
     </div>
   );
 };
