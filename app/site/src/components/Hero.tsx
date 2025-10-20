@@ -1,7 +1,6 @@
 import { Hero as HeroType } from "@lazy-portfolio/types";
-import { SiTypescript, SiReact, SiVite, SiTailwindcss, SiAwslambda, SiDocker, SiGit } from "react-icons/si";
+import { SiTypescript, SiReact, SiTailwindcss, SiAwslambda, SiDocker } from "react-icons/si";
 import { TbBrandVercel } from "react-icons/tb";
-import { FaNode } from "react-icons/fa";
 
 const Hero = ({ name, title }: HeroType) => {
   return (
@@ -26,13 +25,10 @@ const Hero = ({ name, title }: HeroType) => {
           <div className="flex gap-6 items-center flex-wrap">
             <SiReact className="w-8 h-8 text-[#61DAFB] hover:scale-110 transition-transform" title="React" />
             <SiTypescript className="w-8 h-8 text-[#3178C6] hover:scale-110 transition-transform" title="TypeScript" />
-            <SiVite className="w-8 h-8 text-[#646CFF] hover:scale-110 transition-transform" title="Vite" />
             <SiTailwindcss className="w-8 h-8 text-[#06B6D4] hover:scale-110 transition-transform" title="Tailwind CSS" />
-            <FaNode className="w-8 h-8 text-[#339933] hover:scale-110 transition-transform" title="Node.js" />
             <TbBrandVercel className="w-8 h-8 text-foreground hover:scale-110 transition-transform" title="Vercel" />
             <SiAwslambda className="w-8 h-8 text-[#FF9900] hover:scale-110 transition-transform" title="AWS Lambda" />
             <SiDocker className="w-8 h-8 text-[#2496ED] hover:scale-110 transition-transform" title="Docker" />
-            <SiGit className="w-8 h-8 text-[#F05032] hover:scale-110 transition-transform" title="Git" />
           </div>
         </div>
       </div>
