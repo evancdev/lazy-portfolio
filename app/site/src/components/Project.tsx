@@ -1,4 +1,5 @@
 import { Project } from "@lazy-portfolio/types";
+import { parseLinkedText } from "../utils/parseLinkedText";
 
 const Projects = ({ projects }: { projects: Project[] }) => {
 
@@ -14,13 +15,24 @@ const Projects = ({ projects }: { projects: Project[] }) => {
               key={idx}
               className="block border border-border rounded p-6 hover:border-primary transition-all group"
             >
-              <h3 className="text-xl font-semibold mb-3 font-mono group-hover:text-primary transition-colors">
-                {project.title}
-              </h3>
+              {project.link ? (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xl font-semibold mb-3 font-mono group-hover:text-primary transition-colors inline-block"
+                >
+                  {project.title}
+                </a>
+              ) : (
+                <h3 className="text-xl font-semibold mb-3 font-mono group-hover:text-primary transition-colors">
+                  {project.title}
+                </h3>
+              )}
               <ul className="list-disc list-inside space-y-1 mb-4">
                 {project.bulletPoints.map((point, i) => (
                   <li key={i} className="text-muted-foreground font-sans leading-relaxed">
-                    {point}
+                    {parseLinkedText(point)}
                   </li>
                 ))}
               </ul>

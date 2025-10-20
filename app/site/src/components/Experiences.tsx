@@ -1,4 +1,5 @@
 import { Experience } from "@lazy-portfolio/types";
+import { parseLinkedText } from "../utils/parseLinkedText";
 
 const Experiences = ({ experiences }: { experiences: Experience[] }) => {
 
@@ -11,20 +12,31 @@ const Experiences = ({ experiences }: { experiences: Experience[] }) => {
         </h2>
         <div className="space-y-8">
           {experiences.map((exp, idx) => (
-            <div 
+            <div
               key={idx}
               className="border-l-2 border-primary pl-6 py-2"
             >
-              <h3 className="text-xl font-semibold mb-1 font-mono">
-                {exp.title}
-              </h3>
+              {exp.link ? (
+                <a
+                  href={exp.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xl font-semibold mb-1 font-mono hover:text-primary transition-colors"
+                >
+                  {exp.title}
+                </a>
+              ) : (
+                <h3 className="text-xl font-semibold mb-1 font-mono">
+                  {exp.title}
+                </h3>
+              )}
               <div className="text-primary text-sm mb-2 font-mono">
                 {exp.company} | {exp.date}
               </div>
               <ul className="list-disc list-inside space-y-1">
                 {exp.bulletPoints.map((point, i) => (
                   <li key={i} className="text-muted-foreground font-sans leading-relaxed">
-                    {point}
+                    {parseLinkedText(point)}
                   </li>
                 ))}
               </ul>

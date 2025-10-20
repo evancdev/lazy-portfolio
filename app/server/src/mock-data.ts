@@ -12,7 +12,7 @@ export const mockPortfolioData: ParsedDoc = {
       "date": "Jul 2025 - Present",
       "bulletPoints": [
         "Accelerated new API and SDK releases by writing concise OpenAPI docs, migrating legacy data to new Supabase schemas, enhancing developer experience with TypeScript, Python, and Ruby SDK methods, and designing a mock server for isolated testing.",
-        "Design various RCS agents (https://www.pinnacle.sh/catalog) to demonstrate platform capabilities."
+        "Design various <RCS agents> [https://www.pinnacle.sh/catalog] to demonstrate platform capabilities."
       ]
     }
   ],

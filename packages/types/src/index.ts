@@ -10,12 +10,14 @@ export const experienceSchema = z.object({
   company: z.string(),
   date: z.string(),
   bulletPoints: z.array(z.string()),
+  link: z.string().url().optional(),
 });
 
 export const projectsSchema = z.object({
   title: z.string(),
   bulletPoints: z.array(z.string()),
   techStack: z.array(z.string()),
+  link: z.string().url().optional(),
 });
 
 const PHONE_REGEX = /^\(\d{3}\)\s\d{3}-\d{4}$/;

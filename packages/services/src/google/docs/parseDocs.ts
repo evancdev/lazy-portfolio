@@ -12,7 +12,7 @@ export function extractTextFromDoc(docData: GoogleDoc): string {
       const link = element.textRun?.textStyle?.link?.url;
 
       if (link && textContent.trim()) {
-        return `${textContent.trim()} (${link})`;
+        return `<${textContent.trim()}> [${link}]`;
       }
       return textContent;
     })
@@ -32,8 +32,8 @@ export async function parseDocs(docData: GoogleDoc): Promise<ParsedDoc> {
 Return a JSON object with this exact structure:
 {
   "hero": { "name": string, "title": string },
-  "experiences": [{ "title": string, "company": string, "date": string, "bulletPoints": string[] }],
-  "projects": [{ "title": string, "bulletPoints": string[], "techStack": string[] }],
+  "experiences": [{ "title": string, "company": string, "date": string, "bulletPoints": string[], "link": string (optional) }],
+  "projects": [{ "title": string, "bulletPoints": string[], "techStack": string[], "link": string (optional) }],
   "contacts": [{ "text": string, "contactRef": string }]
 }
 
@@ -42,6 +42,9 @@ Rules:
 - List all work experiences with their details
 - List all projects with tech stack
 - Extract contact information (email, phone, URLs)
+- For experience/project titles: if the title has a link formatted as <text> [link], extract the text as the title and the link as the optional "link" field
+- For bullet points: keep inline links as-is in <text> [link] format (these will be parsed on the frontend)
+- IMPORTANT: For contacts, if text contains <> brackets, remove them. The text field should be clean (e.g., "LinkedIn" not "<LinkedIn>")
 - IMPORTANT: For contacts do not include href inside text field
 - Phone numbers should match format: +1 (XXX) XXX-XXXX`;
 

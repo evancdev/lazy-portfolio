@@ -35,6 +35,7 @@ app.get('/api/portfolio', async (req, res: Response<ParsedDoc | null>) => {
     const doc = await fetchDoc(DOC_ID);
     const parsedDocs = await parseDocs(doc);
 
+    console.log(JSON.stringify(parsedDocs, null, 2))
     return res.status(200).json(parsedDocs);
   } catch (error) {
     console.error('Error fetching portfolio data');
