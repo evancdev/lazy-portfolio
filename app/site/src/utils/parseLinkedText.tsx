@@ -16,7 +16,7 @@ export const parseLinkedText = (text: string): ReactNode => {
         href={match[2]}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-primary hover:underline"
+        className="underline hover:text-primary"
       >
         {match[1]}
       </a>
