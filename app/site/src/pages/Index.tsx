@@ -12,14 +12,14 @@ const Index = () => {
 
   // fetch parsed resume from backend
   useEffect(() => {
-    const API_URL = import.meta.env.VITE_API_URL;
+    const isDev = import.meta.env.DEV;
+    const API_URL = isDev ? 'http://localhost:3000' : import.meta.env.VITE_API_URL;
     const API_TOKEN = import.meta.env.VITE_API_TOKEN;
     console.log(API_URL)
-    fetch(`${API_URL}/api/portfolio`, {
-      headers: {
-        'LAZY-API-KEY': API_TOKEN,
-      },
-    })
+
+    const headers: HeadersInit = isDev ? {} : { 'LAZY-API-KEY': API_TOKEN };
+
+    fetch(`${API_URL}/api/portfolio`, { headers })
       .then((res) => res.json() as Promise<ParsedDoc>)
       .then((resume) => {
         console.log('Successfully fetch resume:', resume);

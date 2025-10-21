@@ -78,7 +78,7 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
                 key={idx}
                 href={href}
                 {...(isExternal && { target: "_blank", rel: "noopener noreferrer" })}
-                className="text-primary hover:text-primary-foreground transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors"
                 title={contact.text}
               >
                 <Icon className="w-5 h-5" />
