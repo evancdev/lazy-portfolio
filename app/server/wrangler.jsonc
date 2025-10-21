@@ -1,0 +1,6 @@
+{
+  "name": "lazy-portfolio-api",
+  "compatibility_date": "2025-10-21",
+  "main": "src/worker.ts",
+  "compatibility_flags": ["nodejs_compat"]
+}
