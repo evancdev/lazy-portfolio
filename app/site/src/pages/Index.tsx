@@ -13,8 +13,13 @@ const Index = () => {
   // fetch parsed resume from backend
   useEffect(() => {
     const API_URL = import.meta.env.VITE_API_URL;
+    const API_TOKEN = import.meta.env.VITE_API_TOKEN;
     console.log(API_URL)
-    fetch(`${API_URL}/api/portfolio`)
+    fetch(`${API_URL}/api/portfolio`, {
+      headers: {
+        'LAZY-API-KEY': API_TOKEN,
+      },
+    })
       .then((res) => res.json() as Promise<ParsedDoc>)
       .then((resume) => {
         console.log('Successfully fetch resume:', resume);

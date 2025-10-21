@@ -2,5 +2,11 @@
   "name": "lazy-portfolio-api",
   "compatibility_date": "2025-10-21",
   "main": "src/worker.ts",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+  "kv_namespaces": [
+    {
+      "binding": "PORTFOLIO_CACHE",
+      "id": "bcbf66ce5dd84196b9e84eea7bd3da58"
+    }
+  ]
 }

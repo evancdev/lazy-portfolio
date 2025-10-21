@@ -4,6 +4,8 @@ import { ParsedDoc } from '@lazy-portfolio/types';
 interface Env {
   GOOGLE_DOCS_ID: string;
   GEMINI_API_KEY: string;
+  PORTFOLIO_CACHE: KVNamespace;
+  API_SECRET_TOKEN: string;
 }
 
 export default {
@@ -25,26 +27,75 @@ export default {
 
     // Route: GET /api/portfolio
     if (url.pathname === '/api/portfolio' && request.method === 'GET') {
-      try {
-        // For now, return mock data
-        // TODO: Uncomment below to use real Google Docs data
-        return new Response(JSON.stringify(mockPortfolioData), {
+      // Verify auth token
+      const authToken = request.headers.get('LAZY-API-KEY');
+      if (!authToken || authToken !== env.API_SECRET_TOKEN) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
           headers: corsHeaders,
         });
+      }
 
-        // Uncomment this to use real data:
+      try {
+        // Check cache first
+        const cached = await env.PORTFOLIO_CACHE.get('portfolio', 'json');
+        if (cached) {
+          console.log('Returning cached portfolio data');
+          return new Response(JSON.stringify(cached), {
+            headers: corsHeaders,
+          });
+        }
+
+        // Cache miss - fetch fresh data
+        console.log('Cache miss - fetching fresh data');
+
+        // For now, use mock data
+        const portfolioData = mockPortfolioData;
+
+        // TODO: Uncomment to use real Google Docs data:
         /*
         const { fetchDoc, parseDocs } = await import('@lazy-portfolio/services');
         const doc = await fetchDoc(env.GOOGLE_DOCS_ID);
-        const parsedDocs = await parseDocs(doc);
+        const portfolioData = await parseDocs(doc);
+        */
 
-        return new Response(JSON.stringify(parsedDocs), {
+        // Store in cache indefinitely
+        await env.PORTFOLIO_CACHE.put('portfolio', JSON.stringify(portfolioData));
+
+        return new Response(JSON.stringify(portfolioData), {
           headers: corsHeaders,
         });
-        */
       } catch (error) {
         console.error('Error fetching portfolio data:', error);
         return new Response(JSON.stringify(null), {
+          status: 500,
+          headers: corsHeaders,
+        });
+      }
+    }
+
+    // Route: POST /api/webhook (invalidate cache)
+    if (url.pathname === '/api/webhook' && request.method === 'POST') {
+      // Verify auth token for webhook too
+      const authToken = request.headers.get('LAZY-API-KEY');
+      if (!authToken || authToken !== env.API_SECRET_TOKEN) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: corsHeaders,
+        });
+      }
+
+      try {
+        // Webhook verified
+        await env.PORTFOLIO_CACHE.delete('portfolio');
+        console.log('Cache invalidated via webhook');
+
+        return new Response(JSON.stringify({ success: true, message: 'Cache invalidated' }), {
+          headers: corsHeaders,
+        });
+      } catch (error) {
+        console.error('Error invalidating cache:', error);
+        return new Response(JSON.stringify({ success: false }), {
           status: 500,
           headers: corsHeaders,
         });

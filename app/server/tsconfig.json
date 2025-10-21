@@ -3,6 +3,7 @@
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
+    "types": ["@cloudflare/workers-types"],
     "paths": {
       "@lazy-portfolio/types": ["../../packages/types/src"],
       "@lazy-portfolio/services": ["../../packages/services/src"]
