@@ -15,6 +15,7 @@
     "dev": "turbo run dev --parallel",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "deploy": "cd app/server && npx wrangler deploy",
     "format": "prettier --write .",
     "test": "tsx test.ts"
   },

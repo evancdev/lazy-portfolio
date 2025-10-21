@@ -16,12 +16,12 @@ const { fetchDoc, parseDocs } = await import('@lazy-portfolio/services');
 
 const app = express();
 
-const PORT = 3000;
+const PORT = 3001;
 const DOC_ID = process.env.GOOGLE_DOCS_ID!;
 
 // middleware
 app.use(cors({
-  origin: ['http://localhost:5173'] // vite server
+  origin: ['http://localhost:5173', 'http://localhost:3000'] // vite and next.js
 }));
 app.use(express.json());
 

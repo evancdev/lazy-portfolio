@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { Contact } from "@lazy-portfolio/types";
 import { throttle } from "lodash";
