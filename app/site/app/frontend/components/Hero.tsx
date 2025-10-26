@@ -1,5 +1,5 @@
 import { Hero as HeroType } from "@lazy-portfolio/types";
-import { SiTypescript, SiReact, SiTailwindcss, SiCloudflare, SiDocker, SiExpress } from "react-icons/si";
+import { SiTypescript, SiReact, SiTailwindcss, SiCloudflare, SiExpress } from "react-icons/si";
 import { TbBrandVercel } from "react-icons/tb";
 
 const Hero = ({ name, title }: HeroType) => {
@@ -27,7 +27,6 @@ const Hero = ({ name, title }: HeroType) => {
             <SiExpress className="w-8 h-8 text-foreground hover:scale-110 transition-transform" title="Express" />
             <SiReact className="w-8 h-8 text-[#61DAFB] hover:scale-110 transition-transform" title="React" />
             <SiTailwindcss className="w-8 h-8 text-[#06B6D4] hover:scale-110 transition-transform" title="Tailwind CSS" />
-            <SiDocker className="w-8 h-8 text-[#2496ED] hover:scale-110 transition-transform" title="Docker" />
             <TbBrandVercel className="w-8 h-8 text-foreground hover:scale-110 transition-transform" title="Vercel" />
             <SiCloudflare className="w-8 h-8 text-[#F38020] hover:scale-110 transition-transform" title="Cloudflare Workers" />
           </div>

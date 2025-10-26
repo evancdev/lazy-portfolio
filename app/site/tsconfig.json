@@ -23,8 +23,9 @@
     ]
   },
   "include": [
-    "src",
-    ".next/types/**/*.ts"
+    "app",
+    ".next/types/**/*.ts",
+    "next-env.d.ts"
   ],
   "exclude": [
     "node_modules"

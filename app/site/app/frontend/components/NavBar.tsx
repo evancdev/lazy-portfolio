@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import { Contact } from "@lazy-portfolio/types";
 import { throttle } from "lodash";
-import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaEnvelope, FaLightbulb } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
+import { useTheme } from "../../providers";
 
 const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   const getContactIcon = ({ contactRef, text }: Contact) => {
     const searchStr = `${contactRef} ${text}`.toLowerCase();
@@ -45,9 +47,9 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   };
 
   return (
-    <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
-        isScrolled ? "bg-background/95 backdrop-blur-sm border-b border-border" : ""
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 bg-background/95 backdrop-blur-sm ${
+        isScrolled ? "border-b border-border" : ""
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -89,7 +91,7 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
           })}
         </div>
         {/* Desktop menu */}
-        <div className="hidden md:flex gap-8">
+        <div className="hidden md:flex gap-8 items-center">
           {navItems.map((item) => (
             <a
               key={item.name}
@@ -100,30 +102,46 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
               {item.name}
             </a>
           ))}
+          <button
+            onClick={toggleTheme}
+            className={`transition-colors ${theme === 'light' ? 'text-yellow-400 hover:text-yellow-500' : 'text-muted-foreground hover:text-yellow-500'}`}
+            aria-label="Toggle theme"
+          >
+            <FaLightbulb className="w-5 h-5" />
+          </button>
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 text-primary"
-          aria-label="Toggle menu"
-        >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        {/* Mobile menu */}
+        <div className="md:hidden flex items-center gap-4">
+          <button
+            onClick={toggleTheme}
+            className={`transition-colors ${theme === 'light' ? 'text-yellow-400 hover:text-yellow-500' : 'text-muted-foreground hover:text-yellow-500'}`}
+            aria-label="Toggle theme"
           >
-            {isMenuOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+            <FaLightbulb className="w-5 h-5" />
+          </button>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 text-primary"
+            aria-label="Toggle menu"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              {isMenuOpen ? (
+                <path d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
