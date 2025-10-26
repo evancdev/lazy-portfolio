@@ -3,8 +3,8 @@ import './globals.css'
 import { ThemeProvider } from './providers'
 
 export const metadata: Metadata = {
-  title: '',
-  description: '',
+  title: 'Evan Chen – Portfolio',
+  description: 'I build stuff. Come check out my work.',
 }
 
 export default function RootLayout({
