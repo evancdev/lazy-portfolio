@@ -10,14 +10,14 @@ const Hero = ({ name, title }: HeroType) => {
           <div className="mb-4 text-primary font-mono text-sm">
             <span className="opacity-70">&gt;</span> Hey, I'm
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter">
             {name}
           </h1>
           <h2 className="text-2xl md:text-3xl text-muted-foreground mb-8 font-sans font-light">
             Just a {title}
           </h2>
           <p className="text-lg text-muted-foreground mb-12 font-sans leading-relaxed">
-            that enjoys building random stuff like this website that updates realtime because why not.
+            that enjoys building random cool stuff like this website that updates realtime because why not.
           </p>
         </div>
         <div>
