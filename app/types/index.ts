@@ -24,7 +24,7 @@ const PHONE_REGEX = /^\(\d{3}\)\s\d{3}-\d{4}$/;
 
 export const contactSchema = z.object({
   text: z.string(),
-  contactRef: z.union([z.url(), z.email(), z.string().regex(PHONE_REGEX)]),
+  contactRef: z.union([z.string().url(), z.string().email(), z.string().regex(PHONE_REGEX)]),
 });
 
 export type Experience = z.infer<typeof experienceSchema>;

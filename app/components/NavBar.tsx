@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Contact } from "@lazy-portfolio/types";
+import { Contact } from "../types";
 import { throttle } from "lodash";
 import { FaGithub, FaLinkedin, FaEnvelope, FaLightbulb } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";

@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { ParsedDoc } from '@lazy-portfolio/types';
+import { ParsedDoc } from '../types';
 
 const PortfolioContext = createContext<ParsedDoc | null>(null);
 

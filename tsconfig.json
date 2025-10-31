@@ -1,10 +1,21 @@
 {
   "extends": "./tsconfig.base.json",
-  "files": [],
-  "references": [
-    { "path": "./packages/types" },
-    { "path": "./packages/services" },
-    { "path": "./app/server" },
-    { "path": "./app/site" }
-  ]
+  "compilerOptions": {
+    "jsx": "preserve",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": ["app", ".next/types/**/*.ts", "next-env.d.ts"],
+  "exclude": ["node_modules"]
 }
