@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Contact } from "../types";
-import { throttle } from "lodash";
-import { FaGithub, FaLinkedin, FaEnvelope, FaLightbulb } from "react-icons/fa";
-import { AiFillMessage } from "react-icons/ai";
-import { useTheme } from "../providers";
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { Contact } from '../types';
+import { throttle } from 'lodash';
+import { FaGithub, FaLinkedin, FaEnvelope, FaLightbulb } from 'react-icons/fa';
+import { AiFillMessage } from 'react-icons/ai';
+import { useTheme } from '../providers';
 
 const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,7 +21,8 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
     if (searchStr.includes('github')) return FaGithub;
     if (searchStr.includes('linkedin')) return FaLinkedin;
     if (searchStr.includes('mail') || searchStr.includes('@')) return FaEnvelope;
-    if (searchStr.includes('phone') || searchStr.includes('tel') || /\(\d{3}\)/.test(contactRef)) return AiFillMessage;
+    if (searchStr.includes('phone') || searchStr.includes('tel') || /\(\d{3}\)/.test(contactRef))
+      return AiFillMessage;
 
     // Fallback - should redirect to 500 page
     throw new Error('Unknown contact type');
@@ -31,21 +32,23 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
     const handleScroll = throttle(() => {
       setIsScrolled(window.scrollY > 45);
     }, 100);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      handleScroll.cancel();
+    };
   }, []);
 
   const navItems = [
-    { name: "About", href: "/" },
-    { name: "Experience", href: "/experiences" },
-    { name: "Projects", href: "/projects" }
+    { name: 'About', href: '/' },
+    { name: 'Experiences', href: '/experiences' },
+    { name: 'Projects', href: '/projects' },
   ];
-
 
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm ${
-        isScrolled ? "border-b border-border" : ""
+        isScrolled || isMenuOpen ? 'border-b border-border' : ''
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
@@ -58,26 +61,34 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
           >
             Resume
           </a>
-          {contacts.map((contact, idx) => {
+          {contacts.map((contact) => {
             const Icon = getContactIcon(contact);
             const searchStr = `${contact.contactRef} ${contact.text}`.toLowerCase();
 
             let href = contact.contactRef;
             let isExternal = true;
 
-            if ((searchStr.includes('mail') || searchStr.includes('@')) && !contact.contactRef.startsWith('mailto:')) {
+            if (
+              (searchStr.includes('mail') || searchStr.includes('@')) &&
+              !contact.contactRef.startsWith('mailto:')
+            ) {
               href = `mailto:${contact.contactRef}`;
               isExternal = false;
-            } else if ((searchStr.includes('phone') || searchStr.includes('tel') || /\(\d{3}\)/.test(contact.contactRef)) && !contact.contactRef.startsWith('tel:')) {
+            } else if (
+              (searchStr.includes('phone') ||
+                searchStr.includes('tel') ||
+                /\(\d{3}\)/.test(contact.contactRef)) &&
+              !contact.contactRef.startsWith('tel:')
+            ) {
               href = `sms:${contact.contactRef}`;
               isExternal = false;
             }
 
             return (
               <a
-                key={idx}
+                key={contact.contactRef}
                 href={href}
-                {...(isExternal && { target: "_blank", rel: "noopener noreferrer" })}
+                {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
                 className="text-muted-foreground hover:text-primary transition-colors"
                 title={contact.text}
               >
@@ -93,9 +104,7 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
               key={item.name}
               href={item.href}
               className={`text-sm font-mono transition-colors ${
-                pathname === item.href
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-primary"
+                pathname === item.href ? 'text-primary' : 'text-muted-foreground hover:text-primary'
               }`}
             >
               {item.name}
@@ -145,7 +154,7 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background">
+        <div className="md:hidden bg-background">
           <div className="flex flex-col gap-4 px-4 py-4">
             {navItems.map((item) => (
               <Link
@@ -154,8 +163,8 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
                 onClick={() => setIsMenuOpen(false)}
                 className={`text-sm font-mono transition-colors ${
                   pathname === item.href
-                    ? "text-primary"
-                    : "text-muted-foreground hover:text-primary"
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
                 }`}
               >
                 {item.name}

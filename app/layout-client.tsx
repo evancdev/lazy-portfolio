@@ -1,22 +1,18 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { ParsedDoc } from '../types';
+import { ParsedDoc } from './types';
 
 const PortfolioContext = createContext<ParsedDoc | null>(null);
 
 export function PortfolioProvider({
   children,
-  data
+  data,
 }: {
   children: React.ReactNode;
   data: ParsedDoc;
 }) {
-  return (
-    <PortfolioContext.Provider value={data}>
-      {children}
-    </PortfolioContext.Provider>
-  );
+  return <PortfolioContext.Provider value={data}>{children}</PortfolioContext.Provider>;
 }
 
 export function usePortfolioData() {

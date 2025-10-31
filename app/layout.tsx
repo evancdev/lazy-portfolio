@@ -1,20 +1,16 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import { ThemeProvider } from './providers'
-import { PortfolioProvider } from './layout-client'
-import Navigation from './components/NavBar'
-import { getPortfolioData } from './lib/data'
+import type { Metadata } from 'next';
+import './globals.css';
+import { ThemeProvider } from './providers';
+import { PortfolioProvider } from './layout-client';
+import Navigation from './components/NavBar';
+import { getPortfolioData } from './lib/data';
 
 export const metadata: Metadata = {
   title: 'Evan Chen – Portfolio',
   description: 'I build stuff. Come check out my work.',
-}
+};
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const portfolioData = getPortfolioData();
 
   return (
@@ -30,5 +26,5 @@ export default async function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }

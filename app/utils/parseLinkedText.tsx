@@ -1,4 +1,4 @@
-import { ReactNode, ReactElement } from "react";
+import { ReactNode, ReactElement } from 'react';
 
 export const parseLinkedText = (text: string): ReactNode => {
   if (!text) return null;
@@ -25,8 +25,9 @@ export const parseLinkedText = (text: string): ReactNode => {
         className="underline hover:text-primary"
         aria-label={`External link to ${match[1].trim()}`}
       >
-        {match[1].trim()}{/* Display text is in first capture group */}
-      </a>
+        {match[1].trim()}
+        {/* Display text is in first capture group */}
+      </a>,
     );
     lastIndex = regex.lastIndex;
   }

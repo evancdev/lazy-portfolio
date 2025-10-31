@@ -12,19 +12,28 @@ function readYamlFile<T>(filename: string): T {
 }
 
 export function getPortfolioData(): ParsedDoc {
-  // Read each YAML file
-  const about = readYamlFile('about.yml');
-  const experiences = readYamlFile('experiences.yml');
-  const projects = readYamlFile('projects.yml');
-  const contacts = readYamlFile('contacts.yml');
+  try {
+    // Read each YAML file
+    const about = readYamlFile('about.yml');
+    const experiences = readYamlFile('experiences.yml');
+    const projects = readYamlFile('projects.yml');
+    const contacts = readYamlFile('contacts.yml');
 
-  // Validate and parse with Zod schemas
-  const parsedData: ParsedDoc = {
-    hero: heroSchema.parse(about),
-    experiences: Array.isArray(experiences) ? experiences.map(exp => experienceSchema.parse(exp)) : [],
-    projects: Array.isArray(projects) ? projects.map(proj => projectsSchema.parse(proj)) : [],
-    contacts: Array.isArray(contacts) ? contacts.map(contact => contactSchema.parse(contact)) : [],
-  };
+    // Validate and parse with Zod schemas
+    const parsedData: ParsedDoc = {
+      hero: heroSchema.parse(about),
+      experiences: Array.isArray(experiences)
+        ? experiences.map((exp) => experienceSchema.parse(exp))
+        : [],
+      projects: Array.isArray(projects) ? projects.map((proj) => projectsSchema.parse(proj)) : [],
+      contacts: Array.isArray(contacts)
+        ? contacts.map((contact) => contactSchema.parse(contact))
+        : [],
+    };
 
-  return parsedData;
+    return parsedData;
+  } catch (error) {
+    console.error('Failed to load portfolio data:', error);
+    throw new Error('Portfolio data is invalid or missing. Please check your YAML files.');
+  }
 }
