@@ -22,12 +22,12 @@ export default function ExperiencesPage() {
                   href={exp.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xl font-semibold mb-1 font-mono hover:text-primary transition-colors"
+                  className="text-xl font-semibold mb-3 font-mono hover:text-primary transition-colors"
                 >
                   {exp.title}
                 </a>
               ) : (
-                <h3 className="text-xl font-semibold mb-1 font-mono">{exp.title}</h3>
+                <h3 className="text-xl font-semibold mb-3 font-mono">{exp.title}</h3>
               )}
               <div className="text-primary text-sm mb-2 font-mono">
                 {exp.company} | {exp.date}
