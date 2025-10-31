@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Contact } from "@lazy-portfolio/types";
 import { throttle } from "lodash";
 import { FaGithub, FaLinkedin, FaEnvelope, FaLightbulb } from "react-icons/fa";
 import { AiFillMessage } from "react-icons/ai";
-import { useTheme } from "../../providers";
+import { useTheme } from "../providers";
 
 const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
+  const pathname = usePathname();
 
   const getContactIcon = ({ contactRef, text }: Contact) => {
     const searchStr = `${contactRef} ${text}`.toLowerCase();
@@ -33,18 +36,11 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   }, []);
 
   const navItems = [
-    { name: "About", href: "#about" },
-    { name: "Experience", href: "#experience" },
-    { name: "Projects", href: "#projects" }
+    { name: "About", href: "/" },
+    { name: "Experience", href: "/experiences" },
+    { name: "Projects", href: "/projects" }
   ];
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
 
   return (
     <nav
@@ -93,14 +89,17 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
         {/* Desktop menu */}
         <div className="hidden md:flex gap-8 items-center">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.name}
               href={item.href}
-              onClick={(e) => handleNavClick(e, item.href)}
-              className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
+              className={`text-sm font-mono transition-colors ${
+                pathname === item.href
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-primary"
+              }`}
             >
               {item.name}
-            </a>
+            </Link>
           ))}
           <button
             onClick={toggleTheme}
@@ -149,17 +148,18 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
         <div className="md:hidden border-t border-border bg-background">
           <div className="flex flex-col gap-4 px-4 py-4">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.name}
                 href={item.href}
-                onClick={(e) => {
-                  handleNavClick(e, item.href);
-                  setIsMenuOpen(false);
-                }}
-                className="text-sm font-mono text-muted-foreground hover:text-primary transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+                className={`text-sm font-mono transition-colors ${
+                  pathname === item.href
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 {item.name}
-              </a>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,46 +1,44 @@
-import { ParsedDoc } from '@lazy-portfolio/types';
-import Navigation from './frontend/components/NavBar';
-import Hero from './frontend/components/Hero';
-import Experiences from './frontend/components/Experiences';
-import Projects from './frontend/components/Project';
+'use client';
 
-async function getPortfolioData(): Promise<ParsedDoc> {
-  const url = `${process.env.WORKER_API_URL}/api/portfolio`;
+import { usePortfolioData } from './layout-client';
+import { SiTypescript, SiReact, SiTailwindcss, SiCloudflare, SiExpress } from "react-icons/si";
+import { TbBrandVercel } from "react-icons/tb";
+import { RiNextjsFill } from "react-icons/ri";
 
-  try {
-    // Skip auth for localhost development
-    const headers: HeadersInit = url.includes('localhost')
-      ? {}
-      : { 'LAZY-API-KEY': process.env.API_SECRET_TOKEN as string };
-
-    const response = await fetch(url, {
-      headers,
-      // This tells Next.js to cache indefinitely until revalidated
-      next: { revalidate: false },
-    });
-
-    if (!response.ok) {
-      const text = await response.text();
-      console.error('API Response:', response.status, text);
-      throw new Error(`Failed to fetch portfolio data: ${response.status} - ${text}`);
-    }
-
-    return (await response.json()) as ParsedDoc;
-  } catch (error) {
-    console.error('Fetch error:', error);
-    throw error;
-  }
-}
-
-export default async function HomePage() {
-  const portfolioData = await getPortfolioData();
+export default function HomePage() {
+  const portfolioData = usePortfolioData();
+  const { name, title } = portfolioData.hero;
 
   return (
-    <div className="relative overflow-x-hidden">
-      <Navigation contacts={portfolioData.contacts} />
-      <Hero {...portfolioData.hero} />
-      <Experiences experiences={portfolioData.experiences} />
-      <Projects projects={portfolioData.projects} />
-    </div>
+    <section id="about" className="min-h-screen flex items-center animate-fade-in">
+      <div className="max-w-6xl mx-auto px-4 w-full py-20">
+        <div className="max-w-md">
+          <div className="mb-4 text-primary font-mono text-sm">
+            <span className="opacity-70">&gt;</span> Hey, I'm
+          </div>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tighter">
+            {name}
+          </h1>
+          <h2 className="text-2xl md:text-3xl text-muted-foreground mb-8 font-sans font-light">
+            Just a {title}
+          </h2>
+          <p className="text-lg text-muted-foreground mb-12 font-sans leading-relaxed">
+            that enjoys building random cool stuff like this website that updates realtime because why not.
+          </p>
+        </div>
+        <div>
+          <p className="text-sm text-muted-foreground font-mono mb-4">Built with</p>
+          <div className="flex gap-6 items-center flex-wrap">
+            <SiTypescript className="w-8 h-8 text-[#3178C6] hover:scale-110 transition-transform" title="TypeScript" />
+            <SiExpress className="w-8 h-8 text-foreground hover:scale-110 transition-transform" title="Express" />
+            <SiReact className="w-8 h-8 text-[#61DAFB] hover:scale-110 transition-transform" title="React" />
+            <SiTailwindcss className="w-8 h-8 text-[#06B6D4] hover:scale-110 transition-transform" title="Tailwind CSS" />
+            <RiNextjsFill className="w-8 h-8 text-foreground hover:scale-110 transition-transform" title="Next.js" />
+            <TbBrandVercel className="w-8 h-8 text-foreground hover:scale-110 transition-transform" title="Vercel" />
+            <SiCloudflare className="w-8 h-8 text-[#F38020] hover:scale-110 transition-transform" title="Cloudflare Workers" />
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
