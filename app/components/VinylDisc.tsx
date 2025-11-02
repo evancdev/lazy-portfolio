@@ -10,8 +10,6 @@ type VinylDiscProps = {
   onClick: () => void;
 };
 
-const DISC_SLIDE_DURATION = 4000;
-
 export default function VinylDisc({ status, offset, isDesktop, mounted, onClick }: VinylDiscProps) {
   // Don't render if removed, not desktop, or not mounted
   if (status === 'removed' || !isDesktop || !mounted) return null;
