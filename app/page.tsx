@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { usePortfolioData } from './portfolio-context';
 import { useMusic } from './components/music/MusicContext';
 import MusicBox from './components/music/MusicBox';
+import VinylDisc from './components/VinylDisc';
+import ImageBox from './components/ImageBox';
+import AboutSection from './components/AboutSection';
 import { useReducer, useEffect, useRef } from 'react';
-import { SiTypescript, SiReact, SiTailwindcss, SiFramer } from 'react-icons/si';
-import { TbBrandVercel } from 'react-icons/tb';
-import { RiNextjsFill } from 'react-icons/ri';
 
 const BREAKPOINT_LG = 1024;
 const MAX_VIEWPORT_WIDTH = 2000;
@@ -17,18 +17,6 @@ const MAX_OFFSET = 350;
 const DISC_SLIDE_DURATION = 4000;  // Time for disc to slide into box
 const DISC_FADE_DURATION = 1000;   // Time for disc to fade out
 const DISC_TOTAL_ANIMATION = DISC_SLIDE_DURATION + DISC_FADE_DURATION;
-
-const techStack = [
-  { icon: SiTypescript, label: 'TypeScript', color: '#3178C6' },
-  { icon: RiNextjsFill, label: 'Next.js', color: 'currentColor' },
-  { icon: SiReact, label: 'React', color: '#61DAFB' },
-  { icon: SiTailwindcss, label: 'Tailwind CSS', color: '#06B6D4' },
-  { icon: SiFramer, label: 'Framer Motion', color: '#0055FF' },
-  { icon: TbBrandVercel, label: 'Vercel', color: 'currentColor' },
-];
-
-// This will be populated dynamically from the music files in public/music/
-// For now, we'll use a client-side approach to discover music files
 
 // Disc state machine
 type DiscState = {
@@ -178,88 +166,20 @@ export default function HomePage() {
         className="max-w-6xl mx-auto w-full px-4 py-24 md:py-32"
       >
         <div className="flex flex-col lg:flex-row items-center lg:justify-start justify-center relative gap-24 lg:gap-48">
-          {/* Left Text Column */}
-          <div className="w-full max-w-96 text-balance lg:text-left z-10">
-            <p className="mb-3 text-primary font-mono text-sm opacity-80">
-              <span className="opacity-70">&gt;</span> Hey, I'm
-            </p>
-
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">{name}</h2>
-
-            <p className="text-2xl md:text-3xl text-muted-foreground mb-6 font-light">
-              Just a {title}
-            </p>
-
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed font-sans">
-              that likes to mess around and build cool stuff. Enjoy the music :)
-            </p>
-
-            <p className="text-sm text-muted-foreground font-mono mb-4">Built with</p>
-
-            <div className="flex flex-wrap gap-5 items-center justify-center lg:justify-start">
-              {techStack.map(({ icon: Icon, label, color }) => (
-                <Icon
-                  key={label}
-                  title={label}
-                  style={{ color }}
-                  className="tech-icon w-8 h-8 hover:scale-110 transition-transform"
-                />
-              ))}
-            </div>
-          </div>
+          <AboutSection name={name} title={title} />
 
           {/* Disc + Image Wrapper */}
           <div className="relative w-full max-w-96 h-96 flex-shrink-0">
-            {/* Disc - desktop only, removed after animation completes */}
-            {disc.status !== 'removed' && disc.isDesktop && disc.mounted && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95, x: 0 }}
-                animate={{
-                  x: disc.offset,
-                  rotate: 360,
-                  scale: 1,
-                  opacity: disc.status === 'fading' ? 0 : 1,
-                }}
-                transition={{
-                  opacity: { duration: disc.status === 'fading' ? 1 : 1.2, delay: 0 },
-                  scale: { duration: 1.2, delay: 0 },
-                  x: { duration: disc.status === 'sliding' ? 4 : 0.6, ease: disc.status === 'sliding' ? "easeInOut" : "easeOut" },
-                  rotate: { duration: 3, repeat: Infinity, ease: "linear" },
-                }}
-                onClick={handleDiscClick}
-                className="absolute top-[0.5rem] left-0 w-[23rem] h-[23rem] rounded-full border-4 border-primary border-t-transparent bg-black cursor-pointer hover:scale-105 transition-transform"
-                style={{ zIndex: 5 }}
-              >
-              {/* Inner circles for record effect */}
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border-2 border-primary/40 m-7"
-              />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border-2 border-primary/30 m-[3.65rem]"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 rounded-full border border-primary/20 m-[5.5rem]"
-              />
-              </motion.div>
-            )}
+            <VinylDisc
+              status={disc.status}
+              offset={disc.offset}
+              isDesktop={disc.isDesktop}
+              mounted={disc.mounted}
+              onClick={handleDiscClick}
+            />
 
-            {/* Image box (always visible) */}
-            <motion.div
-              initial={{ scale: 0.95 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="w-full h-full border border-border rounded-xl lg:rounded-lg flex items-center justify-center bg-background overflow-hidden relative z-10"
-            >
-              <span className="text-muted-foreground font-mono text-sm">Image Coming Soon</span>
-            </motion.div>
+            <ImageBox />
 
-            {/* Music controls - show when disc starts fading or is removed */}
             <MusicBox show={disc.status === 'fading' || disc.status === 'removed'} />
           </div>
         </div>
