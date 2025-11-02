@@ -20,11 +20,12 @@ export const projectsSchema = z.object({
   link: z.string().url().optional(),
 });
 
-const PHONE_REGEX = /^\(\d{3}\)\s\d{3}-\d{4}$/;
+const PHONE_REGEX = /^\+1\s\(\d{3}\)\s\d{3}-\d{4}$/;
 
 export const contactSchema = z.object({
   text: z.string(),
   contactRef: z.union([z.string().url(), z.string().email(), z.string().regex(PHONE_REGEX)]),
+  type: z.enum(['github', 'linkedin', 'email', 'phone']).optional(),
 });
 
 export type Experience = z.infer<typeof experienceSchema>;

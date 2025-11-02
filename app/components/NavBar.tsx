@@ -1,13 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Contact } from '../types';
-import { throttle } from 'lodash';
+import throttle from 'lodash.throttle';
 import { FaGithub, FaLinkedin, FaEnvelope, FaLightbulb } from 'react-icons/fa';
 import { AiFillMessage } from 'react-icons/ai';
 import { useTheme } from '../providers';
+
+type ProcessedContact = {
+  contact: Contact;
+  icon: React.ComponentType<{ className?: string }>;
+  href: string;
+  isExternal: boolean;
+};
 
 const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,18 +22,47 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
   const { theme, toggleTheme } = useTheme();
   const pathname = usePathname();
 
-  const getContactIcon = ({ contactRef, text }: Contact) => {
-    const searchStr = `${contactRef} ${text}`.toLowerCase();
+  // Memoize processed contacts to avoid recomputing on every render
+  const processedContacts = useMemo<ProcessedContact[]>(() => {
+    return contacts.map((contact) => {
+      const searchStr = `${contact.contactRef} ${contact.text}`.toLowerCase();
 
-    if (searchStr.includes('github')) return FaGithub;
-    if (searchStr.includes('linkedin')) return FaLinkedin;
-    if (searchStr.includes('mail') || searchStr.includes('@')) return FaEnvelope;
-    if (searchStr.includes('phone') || searchStr.includes('tel') || /\(\d{3}\)/.test(contactRef))
-      return AiFillMessage;
+      // Determine icon
+      let icon;
+      if (contact.type === 'github') icon = FaGithub;
+      else if (contact.type === 'linkedin') icon = FaLinkedin;
+      else if (contact.type === 'email') icon = FaEnvelope;
+      else if (contact.type === 'phone') icon = AiFillMessage;
+      else if (searchStr.includes('github')) icon = FaGithub;
+      else if (searchStr.includes('linkedin')) icon = FaLinkedin;
+      else if (searchStr.includes('mail') || searchStr.includes('@')) icon = FaEnvelope;
+      else if (searchStr.includes('phone') || searchStr.includes('tel') || /\(\d{3}\)/.test(contact.contactRef))
+        icon = AiFillMessage;
+      else {
+        icon = FaEnvelope;
+      }
 
-    // Fallback - should redirect to 500 page
-    throw new Error('Unknown contact type');
-  };
+      // Determine href and whether it's external
+      let href = contact.contactRef;
+      let isExternal = true;
+
+      if (
+        (searchStr.includes('mail') || searchStr.includes('@')) &&
+        !contact.contactRef.startsWith('mailto:')
+      ) {
+        href = `mailto:${contact.contactRef}`;
+        isExternal = false;
+      } else if (
+        (searchStr.includes('phone') || searchStr.includes('tel') || /\(\d{3}\)/.test(contact.contactRef)) &&
+        !contact.contactRef.startsWith('tel:')
+      ) {
+        href = `sms:${contact.contactRef}`;
+        isExternal = false;
+      }
+
+      return { contact, icon, href, isExternal };
+    });
+  }, [contacts]);
 
   useEffect(() => {
     const handleScroll = throttle(() => {
@@ -61,41 +97,18 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
           >
             Resume
           </a>
-          {contacts.map((contact) => {
-            const Icon = getContactIcon(contact);
-            const searchStr = `${contact.contactRef} ${contact.text}`.toLowerCase();
-
-            let href = contact.contactRef;
-            let isExternal = true;
-
-            if (
-              (searchStr.includes('mail') || searchStr.includes('@')) &&
-              !contact.contactRef.startsWith('mailto:')
-            ) {
-              href = `mailto:${contact.contactRef}`;
-              isExternal = false;
-            } else if (
-              (searchStr.includes('phone') ||
-                searchStr.includes('tel') ||
-                /\(\d{3}\)/.test(contact.contactRef)) &&
-              !contact.contactRef.startsWith('tel:')
-            ) {
-              href = `sms:${contact.contactRef}`;
-              isExternal = false;
-            }
-
-            return (
-              <a
-                key={contact.contactRef}
-                href={href}
-                {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
-                className="text-muted-foreground hover:text-primary transition-colors"
-                title={contact.text}
-              >
-                <Icon className="w-5 h-5" />
-              </a>
-            );
-          })}
+          {processedContacts.map(({ contact, icon: Icon, href, isExternal }) => (
+            <a
+              key={contact.contactRef}
+              href={href}
+              {...(isExternal && { target: '_blank', rel: 'noopener noreferrer' })}
+              className="icon-link text-muted-foreground hover:text-primary transition-colors"
+              title={contact.text}
+              aria-label={contact.text}
+            >
+              <Icon className="w-5 h-5" />
+            </a>
+          ))}
         </div>
         {/* Desktop menu */}
         <div className="hidden md:flex gap-8 items-center">
@@ -132,6 +145,8 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="p-2 text-primary"
             aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
           >
             <svg
               className="w-6 h-6"
@@ -154,7 +169,7 @@ const Navigation = ({ contacts }: { contacts: Contact[] }) => {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-background">
+        <div id="mobile-menu" className="md:hidden bg-background">
           <div className="flex flex-col gap-4 px-4 py-4">
             {navItems.map((item) => (
               <Link

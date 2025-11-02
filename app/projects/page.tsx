@@ -1,6 +1,6 @@
 'use client';
 
-import { usePortfolioData } from '../layout-client';
+import { usePortfolioData } from '../portfolio-context';
 import { parseLinkedText } from '../utils/parseLinkedText';
 import { Project } from '../types';
 
@@ -15,9 +15,9 @@ export default function ProjectsPage() {
           <span className="text-primary font-mono">&gt;</span> Projects
         </h2>
         <div className="space-y-8">
-          {projects.map((project: Project, idx: number) => (
+          {projects.map((project: Project) => (
             <div
-              key={idx}
+              key={project.title}
               className="block border border-border rounded p-6 hover:border-primary transition-all group"
             >
               {project.link ? (
@@ -35,15 +35,15 @@ export default function ProjectsPage() {
                 </h3>
               )}
               <ul className="list-disc list-inside space-y-1 mb-4">
-                {project.bulletPoints.map((point, i) => (
-                  <li key={i} className="text-muted-foreground font-sans leading-relaxed">
+                {project.bulletPoints.map((point) => (
+                  <li key={point} className="text-muted-foreground font-sans leading-relaxed">
                     {parseLinkedText(point)}
                   </li>
                 ))}
               </ul>
               <div className="flex flex-wrap gap-2">
-                {project.techStack.map((tech, techIdx) => (
-                  <span key={techIdx} className="text-xs px-2 py-1 bg-secondary rounded font-mono">
+                {project.techStack.map((tech) => (
+                  <span key={tech} className="text-xs px-2 py-1 bg-secondary rounded font-mono">
                     {tech}
                   </span>
                 ))}

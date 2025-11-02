@@ -20,19 +20,21 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>('dark'); // safe SSR fallback
+  const [theme, setTheme] = useState<Theme>('dark');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const stored = localStorage.getItem('theme') as Theme | null;
-    const initial =
-      stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const initial = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     setTheme(initial);
   }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     document.documentElement.classList[theme === 'dark' ? 'add' : 'remove']('dark');
     localStorage.setItem('theme', theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));

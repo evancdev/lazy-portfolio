@@ -1,6 +1,6 @@
 'use client';
 
-import { usePortfolioData } from '../layout-client';
+import { usePortfolioData } from '../portfolio-context';
 import { parseLinkedText } from '../utils/parseLinkedText';
 import { Experience } from '../types';
 
@@ -15,8 +15,8 @@ export default function ExperiencesPage() {
           <span className="text-primary font-mono">&gt;</span> Experiences
         </h2>
         <div className="space-y-8">
-          {experiences.map((exp: Experience, idx: number) => (
-            <div key={idx} className="border-l-2 border-primary pl-6 py-2">
+          {experiences.map((exp: Experience) => (
+            <div key={`${exp.title}-${exp.company}`} className="border-l-2 border-primary pl-6 py-2">
               {exp.link ? (
                 <a
                   href={exp.link}
@@ -33,8 +33,8 @@ export default function ExperiencesPage() {
                 {exp.company} | {exp.date}
               </div>
               <ul className="list-disc list-inside space-y-1">
-                {exp.bulletPoints.map((point, i) => (
-                  <li key={i} className="text-muted-foreground font-sans leading-relaxed">
+                {exp.bulletPoints.map((point) => (
+                  <li key={point} className="text-muted-foreground font-sans leading-relaxed">
                     {parseLinkedText(point)}
                   </li>
                 ))}

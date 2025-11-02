@@ -1,7 +1,7 @@
 import { ReactNode, ReactElement } from 'react';
 
 export const parseLinkedText = (text: string): ReactNode => {
-  if (!text) return null;
+  if (!text) return text;
 
   // Pattern: [display text](url) - standard markdown format (with optional spaces)
   const regex = /\[([^\]]+)\]\s*\(([^)]+)\)/g;

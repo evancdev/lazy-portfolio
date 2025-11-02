@@ -32,8 +32,7 @@ export function getPortfolioData(): ParsedDoc {
     };
 
     return parsedData;
-  } catch (error) {
-    console.error('Failed to load portfolio data:', error);
+  } catch {
     throw new Error('Portfolio data is invalid or missing. Please check your YAML files.');
   }
 }
