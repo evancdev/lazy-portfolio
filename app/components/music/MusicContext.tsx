@@ -6,11 +6,14 @@ type MusicContextType = {
   playlist: { title: string; src: string }[];
   currentTrack: number;
   isPlaying: boolean;
+  currentTime: number;
+  duration: number;
   audioRef: React.RefObject<HTMLAudioElement | null>;
   togglePlayPause: () => void;
   nextTrack: () => void;
   prevTrack: () => void;
   startMusic: () => void;
+  seekTo: (time: number) => void;
 };
 
 const MusicContext = createContext<MusicContextType | null>(null);
@@ -20,6 +23,8 @@ export function MusicProvider({ children }: { children: ReactNode }) {
   const [playlist, setPlaylist] = useState<{ title: string; src: string }[]>([]);
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
 
   // Discover music files on mount
   useEffect(() => {
@@ -38,17 +43,32 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     loadPlaylist();
   }, []);
 
-  // Auto-play next track when current one ends
+  // Track audio time and duration
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    const handleTimeUpdate = () => {
+      setCurrentTime(audio.currentTime);
+    };
+
+    const handleLoadedMetadata = () => {
+      setDuration(audio.duration);
+    };
 
     const handleEnded = () => {
       setCurrentTrack((prev) => (prev + 1) % playlist.length);
     };
 
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
-    return () => audio.removeEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+    };
   }, [playlist.length]);
 
   // Update audio source when track changes
@@ -96,17 +116,26 @@ export function MusicProvider({ children }: { children: ReactNode }) {
     setIsPlaying(true);
   };
 
+  const seekTo = (time: number) => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = time;
+    setCurrentTime(time);
+  };
+
   return (
     <MusicContext.Provider
       value={{
         playlist,
         currentTrack,
         isPlaying,
+        currentTime,
+        duration,
         audioRef,
         togglePlayPause,
         nextTrack,
         prevTrack,
         startMusic,
+        seekTo,
       }}
     >
       {children}
