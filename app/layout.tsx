@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from './providers';
 import { PortfolioProvider } from './portfolio-context';
+import { MusicProvider } from './components/music/MusicContext';
 import Navigation from './components/NavBar';
 import { getPortfolioData } from './lib/data';
 
@@ -25,10 +26,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="overflow-x-hidden">
         <ThemeProvider>
           <PortfolioProvider data={portfolioData}>
-            <div className="relative min-h-screen flex flex-col">
-              <Navigation contacts={portfolioData.contacts} />
-              <main className="flex-1">{children}</main>
-            </div>
+            <MusicProvider>
+              <div className="relative min-h-screen flex flex-col">
+                <Navigation contacts={portfolioData.contacts} />
+                <main className="flex-1">{children}</main>
+              </div>
+            </MusicProvider>
           </PortfolioProvider>
         </ThemeProvider>
       </body>
