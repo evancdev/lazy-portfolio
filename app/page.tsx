@@ -34,7 +34,7 @@ type DiscState = {
 };
 
 type DiscAction =
-  | { type: 'MOUNT'; isDesktop: boolean }
+  | { type: 'MOUNT'; isDesktop: boolean; wasClicked: boolean }
   | { type: 'START_ANIMATION' }
   | { type: 'START_FADE' }
   | { type: 'REMOVE' }
@@ -45,7 +45,12 @@ type DiscAction =
 function discReducer(state: DiscState, action: DiscAction): DiscState {
   switch (action.type) {
     case 'MOUNT':
-      return { ...state, mounted: true, isDesktop: action.isDesktop, status: action.isDesktop ? 'idle' : 'removed' };
+      return {
+        ...state,
+        mounted: true,
+        isDesktop: action.isDesktop,
+        status: action.wasClicked ? 'removed' : (action.isDesktop ? 'idle' : 'removed')
+      };
     case 'START_ANIMATION':
       return state.status === 'idle' ? { ...state, status: 'sliding', offset: 0 } : state;
     case 'START_FADE':
@@ -93,6 +98,9 @@ export default function HomePage() {
     timeoutRefs.current.forEach(clearTimeout);
     timeoutRefs.current = [];
 
+    // Mark disc as clicked in sessionStorage so it persists during navigation
+    sessionStorage.setItem('discClicked', 'true');
+
     dispatch({ type: 'START_ANIMATION' });
 
     timeoutRefs.current.push(
@@ -103,10 +111,15 @@ export default function HomePage() {
     );
   };
 
-  // Initialize on mount
+  // Initialize on mount and handle page refresh clearing
   useEffect(() => {
     const isDesktop = window.innerWidth >= BREAKPOINT_LG;
-    dispatch({ type: 'MOUNT', isDesktop });
+    const wasClicked = sessionStorage.getItem('discClicked') === 'true';
+    dispatch({ type: 'MOUNT', isDesktop, wasClicked });
+
+    const clearSession = () => sessionStorage.removeItem('discClicked');
+    window.addEventListener('beforeunload', clearSession);
+    return () => window.removeEventListener('beforeunload', clearSession);
   }, []);
 
   // Handle resize and disc positioning
