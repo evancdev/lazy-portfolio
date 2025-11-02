@@ -7,8 +7,11 @@ import Navigation from './components/NavBar';
 import { getPortfolioData } from './lib/data';
 
 export const metadata: Metadata = {
-  title: 'Evan Chen – Portfolio',
+  title: 'Evan Chen Portfolio',
   description: 'I build stuff. Come check out my work.',
+  icons: {
+    icon: '/favicon.png',
+  }
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
