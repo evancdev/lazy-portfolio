@@ -2,10 +2,11 @@
 
 import { motion } from 'framer-motion';
 import { usePortfolioData } from './portfolio-context';
-import { useReducer, useEffect, useRef } from 'react';
+import { useReducer, useEffect, useRef, useState } from 'react';
 import { SiTypescript, SiReact, SiTailwindcss, SiFramer } from 'react-icons/si';
 import { TbBrandVercel } from 'react-icons/tb';
 import { RiNextjsFill } from 'react-icons/ri';
+import { FaPlay, FaPause, FaStepForward, FaStepBackward } from 'react-icons/fa';
 
 const BREAKPOINT_LG = 1024;
 const MAX_VIEWPORT_WIDTH = 2000;
@@ -24,6 +25,9 @@ const techStack = [
   { icon: SiFramer, label: 'Framer Motion', color: '#0055FF' },
   { icon: TbBrandVercel, label: 'Vercel', color: 'currentColor' },
 ];
+
+// This will be populated dynamically from the music files in public/music/
+// For now, we'll use a client-side approach to discover music files
 
 // Disc state machine
 type DiscState = {
@@ -81,6 +85,33 @@ export default function HomePage() {
 
   // Refs to store timeout IDs for cleanup
   const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Music player state
+  const [playlist, setPlaylist] = useState<{ title: string; src: string }[]>([]);
+  const [currentTrack, setCurrentTrack] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Discover music files on mount
+  useEffect(() => {
+    const loadPlaylist = async () => {
+      try {
+        // Fetch the list of files from the music directory
+        const response = await fetch('/api/music');
+        if (response.ok) {
+          const files = await response.json();
+          setPlaylist(files);
+        } else {
+          // Fallback to default playlist if API doesn't exist
+          console.warn('Music API not available, using default playlist');
+        }
+      } catch (error) {
+        console.error('Error loading playlist:', error);
+      }
+    };
+
+    loadPlaylist();
+  }, []);
 
   // Cleanup timeouts on unmount
   useEffect(() => {
@@ -89,6 +120,56 @@ export default function HomePage() {
       timeoutRefs.current = [];
     };
   }, []);
+
+  // Music control functions
+  const togglePlayPause = () => {
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play().catch((error) => {
+        console.error('Error playing audio:', error);
+      });
+      setIsPlaying(true);
+    }
+  };
+
+  const nextTrack = () => {
+    setCurrentTrack((prev) => (prev + 1) % playlist.length);
+  };
+
+  const prevTrack = () => {
+    setCurrentTrack((prev) => (prev - 1 + playlist.length) % playlist.length);
+  };
+
+  // Auto-play next track when current one ends
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleEnded = () => {
+      nextTrack();
+    };
+
+    audio.addEventListener('ended', handleEnded);
+    return () => audio.removeEventListener('ended', handleEnded);
+  }, []);
+
+  // Update audio source when track changes
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    const wasPlaying = isPlaying;
+    audioRef.current.src = playlist[currentTrack].src;
+
+    if (wasPlaying) {
+      audioRef.current.play().catch((error) => {
+        console.error('Error playing audio:', error);
+      });
+    }
+  }, [currentTrack]);
 
   // Handle disc click animation
   const handleDiscClick = () => {
@@ -106,6 +187,19 @@ export default function HomePage() {
     timeoutRefs.current.push(
       setTimeout(() => dispatch({ type: 'START_FADE' }), DISC_SLIDE_DURATION)
     );
+
+    // Play music when disc fully enters the box (after slide animation completes)
+    timeoutRefs.current.push(
+      setTimeout(() => {
+        if (audioRef.current) {
+          audioRef.current.play().catch((error) => {
+            console.error('Error playing audio:', error);
+          });
+          setIsPlaying(true);
+        }
+      }, DISC_SLIDE_DURATION)
+    );
+
     timeoutRefs.current.push(
       setTimeout(() => dispatch({ type: 'REMOVE' }), DISC_TOTAL_ANIMATION)
     );
@@ -156,6 +250,9 @@ export default function HomePage() {
       <h1 id="about-title" className="sr-only">
         About Me
       </h1>
+
+      {/* Hidden audio element */}
+      {playlist.length > 0 && <audio ref={audioRef} src={playlist[currentTrack].src} />}
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -244,6 +341,45 @@ export default function HomePage() {
             >
               <span className="text-muted-foreground font-mono text-sm">Image Coming Soon</span>
             </motion.div>
+
+            {/* Music controls - only show when disc is removed */}
+            {playlist.length > 0 && disc.status === 'removed' && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+                className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm border border-border rounded-lg p-4 mt-4 z-20"
+              >
+                <div className="flex flex-col gap-3">
+                  <p className="text-sm font-mono text-center text-muted-foreground">
+                    {playlist[currentTrack].title}
+                  </p>
+                  <div className="flex items-center justify-center gap-3">
+                    <button
+                      onClick={prevTrack}
+                      className="p-2 hover:text-primary transition-colors"
+                      aria-label="Previous track"
+                    >
+                      <FaStepBackward className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={togglePlayPause}
+                      className="p-3 bg-primary text-primary-foreground rounded-full hover:opacity-90 transition-opacity"
+                      aria-label={isPlaying ? 'Pause' : 'Play'}
+                    >
+                      {isPlaying ? <FaPause className="w-4 h-4" /> : <FaPlay className="w-4 h-4 ml-0.5" />}
+                    </button>
+                    <button
+                      onClick={nextTrack}
+                      className="p-2 hover:text-primary transition-colors"
+                      aria-label="Next track"
+                    >
+                      <FaStepForward className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
         </div>
       </motion.div>
