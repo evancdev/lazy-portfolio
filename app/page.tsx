@@ -63,7 +63,7 @@ function discReducer(state: DiscState, action: DiscAction): DiscState {
 
 export default function HomePage() {
   const portfolioData = usePortfolioData();
-  const { name, title } = portfolioData.hero;
+  const { name, title, description } = portfolioData.hero;
   const { startMusic } = useMusic();
 
   const [disc, dispatch] = useReducer(discReducer, {
@@ -165,8 +165,8 @@ export default function HomePage() {
         transition={{ duration: 0.6, ease: 'easeOut' }}
         className="max-w-6xl mx-auto w-full px-4 py-24 md:py-32"
       >
-        <div className="flex flex-col lg:flex-row items-center lg:justify-start justify-center relative gap-24 lg:gap-48">
-          <AboutSection name={name} title={title} />
+        <div className="flex flex-col lg:flex-row items-center lg:justify-start justify-center relative gap-24 lg:gap-24">
+          <AboutSection name={name} title={title} description={description} />
 
           {/* Disc + Image Wrapper */}
           <div className="relative w-full max-w-96 h-96 flex-shrink-0">

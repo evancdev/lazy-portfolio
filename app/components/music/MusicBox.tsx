@@ -43,9 +43,9 @@ export default function MusicBox({ show }: MusicBoxProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.5, ease: 'easeOut' }}
-      className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm border border-border rounded-lg p-4 mt-4 z-20"
+      className="absolute top-full left-0 right-0 bg-background/95 backdrop-blur-sm rounded-lg p-6 mt-4 z-20"
     >
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-4">
         <p className="text-sm font-mono text-center text-muted-foreground">
           {playlist[currentTrack].title}
         </p>

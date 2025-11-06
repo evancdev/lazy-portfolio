@@ -1,5 +1,6 @@
 - title: Burokku AI
   techStack:
+    - Python
     - Keras
     - TensorFlow
     - OpenCV
@@ -15,3 +16,21 @@
   bulletPoints:
     - Develop a roguelike dungeon-crawler card game in OCaml, leveraging functional programming paradigms such as immutable state, pattern matching, and algebraic data types to build a robust and maintainable codebase.
     - Design core gameplay systems, including player progression, procedural encounter generation, and a dynamic shop with tier-based card offerings and economic validation to enhance strategic depth and replayability. Ensured type-safe state transitions across battle, shop, camp, and chance encounters through modular architecture, exception handling, and rigorous functional design patterns.
+
+- title: Fury of The Lost Knight (2023)
+  link: https://dgacornell.itch.io/fury-of-the-lost-knight
+  techStack:
+    - Unity
+    - C#
+  bulletPoints:
+    - Led player systems engineering within a 15-member development team, managing a 4-person sub-team and coordinating cross-module integration.
+    - Designed a universal knockback system used across the player and 6+ enemy types, computing normalized impact vectors and applying weighted impulse forces for consistent hit reactions.
+    - Implemented core 2D movement mechanics including dashing, jump gravity curves, acceleration tuning, buffered inputs, and responsive player control behavior.
+    - Engineered responsive 2D player mechanics combining precise movement control (dashing, jump gravity curves, acceleration tuning, buffered inputs) with robust combat logic featuring hitbox/hurtbox detection, invincibility frames, and validated attacks.
+    - Developed a timing-based melee combat system integrating an animation state machine with animation locks, early-cancel windows, and scriptable weapons supporting diverse attack types (slash, down strike, air slash, up slash).
+    - Tuned combat and movement values through iterative playtesting, adjusting attack speed, knockback strength, gravity behavior, and movement responsiveness.
+
+
+
+
+

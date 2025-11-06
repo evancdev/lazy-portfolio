@@ -18,36 +18,36 @@ export default function ProjectsPage() {
           {projects.map((project: Project) => (
             <div
               key={project.title}
-              className="block border border-border rounded p-6 hover:border-primary transition-all group"
+              className="block border border-border rounded p-6 group"
             >
               {project.link ? (
                 <a
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xl font-semibold mb-3 font-mono group-hover:text-primary transition-colors inline-block"
+                  className="text-xl font-semibold mb-3 font-mono inline-block hover:text-primary transition-colors"
                 >
                   {project.title}
                 </a>
               ) : (
-                <h3 className="text-xl font-semibold mb-3 font-mono group-hover:text-primary transition-colors">
+                <h3 className="text-xl font-semibold mb-3 font-mono">
                   {project.title}
                 </h3>
               )}
-              <ul className="list-disc list-inside space-y-1 mb-4">
-                {project.bulletPoints.map((point) => (
-                  <li key={point} className="text-muted-foreground font-sans leading-relaxed">
-                    {parseLinkedText(point)}
-                  </li>
-                ))}
-              </ul>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 mb-4">
                 {project.techStack.map((tech) => (
                   <span key={tech} className="text-xs px-2 py-1 bg-secondary rounded font-mono">
                     {tech}
                   </span>
                 ))}
               </div>
+              <ul className="list-disc list-inside space-y-1">
+                {project.bulletPoints.map((point) => (
+                  <li key={point} className="text-muted-foreground font-sans leading-relaxed">
+                    {parseLinkedText(point)}
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>

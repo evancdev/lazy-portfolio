@@ -16,11 +16,12 @@ const techStack = [
 type AboutSectionProps = {
   name: string;
   title: string;
+  description: string;
 };
 
-export default function AboutSection({ name, title }: AboutSectionProps) {
+export default function AboutSection({ name, title, description }: AboutSectionProps) {
   return (
-    <div className="w-full max-w-96 text-balance lg:text-left z-10">
+    <div className="w-full max-w-xl text-balance lg:text-left z-10">
       <p className="mb-3 text-primary font-mono text-sm opacity-80">
         <span className="opacity-70">&gt;</span> Hey, I'm
       </p>
@@ -32,7 +33,7 @@ export default function AboutSection({ name, title }: AboutSectionProps) {
       </p>
 
       <p className="text-lg text-muted-foreground mb-8 leading-relaxed font-sans">
-        that likes to mess around and build cool stuff. Enjoy the music :)
+        {description}
       </p>
 
       <p className="text-sm text-muted-foreground font-mono mb-4">Built with</p>

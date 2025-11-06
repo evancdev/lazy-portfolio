@@ -3,6 +3,7 @@ import * as z from 'zod';
 export const heroSchema = z.object({
   name: z.string(),
   title: z.string(),
+  description: z.string(),
 });
 
 export const experienceSchema = z.object({
