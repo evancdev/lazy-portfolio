@@ -2,8 +2,10 @@
   company: Pinnacle
   date: Jul 2025 - Present
   bulletPoints:
-    - Demonstrate platform capabilities by designing 9 RCS agent demos and centralizing them in an agentic assistant with media validation, Google Search and Places API tools, and structured outputs for safe, parseable JSON
-    - Accelerate API releases and improve developer experience by documenting 20+ OpenAPI endpoints, enhancing TypeScript, Python, and Ruby SDKs with validation and file-upload support, and building a mock server with isolated testing for safe, reliable integrations
-    - Automate migration of 30,000+ messages and 10+ client profiles from legacy tables to new schemas using Supabase RPC functions, handling table dependencies via topological sorting, validating data integrity, and batching 500-row inserts to reduce migration time by 80%
-    - Streamline client RCS agent launches by supporting system migration from SMS/MMS to RCS and building branded landing pages for agent approval, enabling 5–7 day faster production
+  - Build 10+ productionized demos to demonstrate Pinnacle’s RCS capabilities – centralizing them through an agentic assistant with chatbot functionality + tools (Web Search + Google Places API).
+  - Design + implement Pinnacle’s unified SDK by documenting 20+ endpoints in OpenAPI + writing additional custom methods in Typescript, Python, and Ruby.  Test via a mock server for safe and reliable integrations.
+  - Migrate tens of thousands of client data to new tables via database scripts, topological sorting for table dependencies resolution, 500+ row batch inserts (80% time reduction), and test for data integrity.
+  - Accelerate + streamline RCS agent launches by revamping the agent support flows and building standalone branded websites for agent approval – cutting time from development to production by 5-7 days.
+
+
 
