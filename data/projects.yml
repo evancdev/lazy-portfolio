@@ -6,16 +6,18 @@
     - OpenCV
     - NumPy
   bulletPoints:
-    - Engineer a reinforcement learning system to autonomously play Tetris by designing and implementing a DQN agent with experience replay, epsilon-greedy exploration, and customizable neural network architectures using Keras and TensorFlow.
-    - Develop a fully-functional Tetris game environment with collision detection, board state management, and real-time rendering using OpenCV and NumPy, serving as the training platform for the AI agent.
-    - Implement heuristic search that calculates board properties including aggregate height, bumpiness, and hole detection as baseline comparison metrics.
+  - Build a full Tetris engine with a 10×20 board, 7-tetromino system, collision physics, line clearing, scoring, and real-time OpenCV rendering to serve as a reliable RL environment.
+  - Develop a heuristic search model using weighted board features (height, holes, bumpiness, lines cleared) to benchmark RL performance.
+  - Train + refine a DQN model using Keras with epsilon-greedy policy + 32-unit ReLU layers, enabling 2,000+ self-play episodes via batched replay and checkpointing to optimize score and survivability. 
 
 - title: Tower of Bingalee
   techStack:
     - OCaml
   bulletPoints:
-    - Develop a roguelike dungeon-crawler card game in OCaml, leveraging functional programming paradigms such as immutable state, pattern matching, and algebraic data types to build a robust and maintainable codebase.
-    - Design core gameplay systems, including player progression, procedural encounter generation, and a dynamic shop with tier-based card offerings and economic validation to enhance strategic depth and replayability. Ensured type-safe state transitions across battle, shop, camp, and chance encounters through modular architecture, exception handling, and rigorous functional design patterns.
+  - Design + implement an immutable player module with OCaml record types and 10+ pure functions to provide an interface to manage player attributes across all game modules.
+  - Develop a procedural encounter system that generates 3-node paths from encounter types, ensuring non-deterministic progression leading to a final boss encounter.
+  - Engineer a shop state with level-based inventory and transactions using pattern matching and custom exceptions to buy + remove cards and validate purchases.
+  - Test over 200+ edge cases across 9 modules - combining black + glass box strategies to ensure correctness of state management + transitions.
 
 - title: Fury of The Lost Knight (2023)
   link: https://dgacornell.itch.io/fury-of-the-lost-knight

@@ -2,10 +2,7 @@
   company: Pinnacle
   date: Jul 2025 - Present
   bulletPoints:
-  - Build 10+ productionized demos to demonstrate Pinnacle’s RCS capabilities – centralizing them through an agentic assistant with chatbot functionality + tools (Web Search + Google Places API).
+  - Build 10+ productionized demos to demonstrate Pinnacle’s RCS capabilities – centralizing them through an agentic assistant with chatbot functionality + tools (Google Search + Places API).
   - Design + implement Pinnacle’s unified SDK by documenting 20+ endpoints in OpenAPI + writing additional custom methods in Typescript, Python, and Ruby.  Test via a mock server for safe and reliable integrations.
   - Migrate tens of thousands of client data to new tables via database scripts, topological sorting for table dependencies resolution, 500+ row batch inserts (80% time reduction), and test for data integrity.
   - Accelerate + streamline RCS agent launches by revamping the agent support flows and building standalone branded websites for agent approval – cutting time from development to production by 5-7 days.
-
-
-
